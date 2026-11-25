@@ -1,0 +1,107 @@
+/* 卷面样式。--fs / --font / --fg / --bg 由 Java 按 IDE 主题注入 */
+:root {
+  --accent: #3b82f6;
+  --accent-bg: rgba(59, 130, 246, .18);
+  --cur-bg: rgba(59, 130, 246, .06);
+  --line: rgba(128, 128, 128, .28);
+  --line-strong: rgba(128, 128, 128, .5);
+  --hover: rgba(128, 128, 128, .12);
+  --soft: rgba(128, 128, 128, .08);
+  --pinh: 38vh;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; padding: 0 12px 45vh;
+  line-height: 1.7; font-family: var(--font); font-size: var(--fs);
+  color: var(--fg); background: var(--bg);
+}
+button {
+  font: inherit; font-size: .88em; color: inherit; background: transparent;
+  border: 1px solid var(--line); border-radius: 4px; padding: 0 8px; cursor: pointer; line-height: 1.6;
+}
+button:hover { background: var(--hover); }
+button.on { background: var(--accent-bg); border-color: var(--accent); }
+.sp { flex: 1; }
+
+/* ---------- 顶部栏 ---------- */
+#top { position: sticky; top: 0; z-index: 10; background: var(--bg); margin: 0 -12px; padding: 0 12px; border-bottom: 1px solid var(--line); }
+#bar { display: flex; align-items: center; gap: 10px; min-height: 32px; font-size: .92em; flex-wrap: wrap; }
+#clock { font-variant-numeric: tabular-nums; font-weight: 600; }
+#clock.warn { color: #d29922; }
+#clock.over { color: #f85149; }
+#flash { color: var(--accent); font-size: .9em; }
+#pin { display: none; border-top: 1px dashed var(--line); }
+body.pinned #pin { display: block; }
+#pin-hd { display: flex; align-items: center; gap: 6px; font-size: .85em; opacity: .85; padding: 2px 0; }
+#pin-body { max-height: var(--pinh); overflow: auto; padding: 2px 4px 8px; }
+
+/* ---------- 题目 ---------- */
+.hd { font-weight: bold; margin: 10px 0 6px; opacity: .85; }
+.q { margin: 0 -8px 14px; padding: 8px 8px 10px; border-radius: 6px; border-left: 3px solid transparent; }
+.q.cur { border-left-color: var(--accent); background: var(--cur-bg); }
+.stem p { margin: 4px 0; }
+.no { font-weight: bold; margin-right: 4px; }
+.meta { font-size: .82em; opacity: .6; margin: 2px 0; }
+.mref { display: inline-block; font-size: .82em; padding: 0 8px; border-radius: 10px; border: 1px solid var(--line); cursor: pointer; opacity: .85; margin: 2px 0; }
+.mref:hover { background: var(--hover); }
+.opts { list-style: none; padding: 0; margin: 6px 0; }
+.opt { padding: 4px 8px; margin: 4px 0; border-radius: 4px; cursor: pointer; border: 1px solid var(--line); }
+.opt:hover { background: var(--hover); }
+.opt p { display: inline; margin: 0; }
+.opt .key { display: inline-block; min-width: 1.5em; font-weight: bold; }
+.sel { background: var(--accent-bg) !important; border-color: var(--accent) !important; }
+.ok { background: rgba(46, 160, 67, .22) !important; border-color: rgba(46, 160, 67, .8) !important; }
+.bad { background: rgba(248, 81, 73, .22) !important; border-color: rgba(248, 81, 73, .8) !important; }
+.q.locked .opt { cursor: not-allowed; opacity: .55; }
+.q.timeout .no::after { content: ' ⏱超时'; color: #f85149; font-size: .82em; font-weight: normal; }
+.mode-solution .opt, .q.revealed .opt { cursor: default; }
+.mode-solution .opt:hover, .q.revealed .opt:hover { background: transparent; }
+.verdict { margin-top: 4px; font-size: .92em; }
+.v-ok { color: #3fb950; }
+.v-bad { color: #f85149; }
+.sol { margin-top: 6px; padding: 6px 8px; background: var(--soft); border-radius: 4px; }
+.sol > b { display: block; }
+.mode-review .q:not(.revealed) .sol,
+.mode-review .q:not(.revealed) .src,
+.mode-review .q:not(.revealed) .verdict { display: none; }
+.src { opacity: .55; font-size: .85em; margin-top: 4px; }
+.tip { opacity: .6; font-size: .9em; margin: 8px 0; }
+
+/* ---------- 资料分析：材料、表格、图片 ---------- */
+.mat { margin: 10px 0 12px; border-left: 3px solid var(--accent); background: var(--soft); border-radius: 0 4px 4px 0; }
+.mat-hd { display: flex; gap: 8px; align-items: center; font-size: .85em; padding: 3px 8px; opacity: .85; cursor: pointer; user-select: none; }
+.mat-body { padding: 4px 10px 8px; }
+.mat.fold .mat-body { display: none; }
+.mat.fold .mat-hd::after { content: '已收起，点击展开'; opacity: .7; }
+.mat.away .mat-hd::after { content: '已固定在顶部（M 取消）'; opacity: .7; }
+.mat-body p, #pin-body p { margin: 4px 0; text-indent: 0; }
+.tbl { overflow-x: auto; margin: 6px 0; }
+table { border-collapse: collapse; font-size: .95em; }
+td, th { border: 1px solid var(--line-strong); padding: 2px 6px; vertical-align: top; }
+tr:nth-child(even) td { background: var(--soft); }
+td.num { text-align: right; white-space: nowrap; font-variant-numeric: tabular-nums; }
+img { max-width: 100%; vertical-align: middle; cursor: zoom-in; }
+.opt img { cursor: pointer; }
+body.dark img { background: #fff; border-radius: 2px; padding: 1px; }   /* 公式图片多是透明底黑字，暗色主题下补白底 */
+body.stealth img { opacity: .35; transition: opacity .15s; }
+body.stealth img:hover { opacity: 1; }
+mark { background: rgba(255, 213, 0, .45); color: inherit; border-radius: 2px; }
+
+/* ---------- 弹层 ---------- */
+.overlay { display: none; position: fixed; inset: 0; z-index: 100; background: rgba(0, 0, 0, .6); overflow: auto; }
+.overlay.show { display: block; }
+#lightbox img { display: block; margin: 24px auto; max-width: none; background: #fff; padding: 4px; cursor: zoom-in; opacity: 1 !important; }
+#help .box { max-width: 440px; margin: 40px auto; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 12px 16px; }
+#help td { border: none; padding: 2px 8px; background: none !important; white-space: nowrap; }
+kbd { border: 1px solid var(--line-strong); border-bottom-width: 2px; border-radius: 3px; padding: 0 4px; font-family: inherit; font-size: .88em; }
+
+/* ---------- 暂停 ---------- */
+#pause-ov { display: none; position: fixed; inset: 0; z-index: 90; background: var(--bg); cursor: pointer; align-items: center; justify-content: center; text-align: center; padding: 20px; }
+body.paused #pause-ov { display: flex; }
+body.paused { overflow: hidden; }
+#pause-ov .big { font-size: 1.6em; font-weight: 600; margin-bottom: 6px; }
+#pause-reason { opacity: .75; }
+#pause-time { font-variant-numeric: tabular-nums; margin: 8px 0; }
+/* 隐藏暂停提示：只留一块和背景同色的空白，仍然可以点击 / 按空格继续 */
+body.pause-quiet #pause-ov { cursor: default; }
+body.pause-quiet #pause-ov .box { display: none; }

@@ -1,0 +1,30 @@
+<idea-plugin>
+    <id>com.ranju.fenbi-idea</id>
+    <name>Fenbi Xingce</name>
+    <vendor>RAN JU</vendor>
+    <description><![CDATA[
+    在 IntelliJ IDEA 里刷粉笔行测题：按考点组卷、作答、交卷看解析。<br/>
+    支持整卷/每题限时、暂停与切屏自动暂停、键盘作答、本地错题本、按模块统计（练习时长与正确率的相关性），以及资料分析的材料固定、表格与图片优化。<br/>
+    使用前请在 Settings | Tools | Fenbi 行测 中填入粉笔网页版的 Cookie。
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <!-- 2026.2 起 JCEF 拆成了独立的内置插件，用到 JBCef* 必须显式依赖 -->
+    <depends>com.intellij.modules.jcef</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow id="Fenbi" anchor="right" icon="/icons/fenbi.svg"
+                    factoryClass="com.ranju.fenbi.ui.FenbiToolWindowFactory"/>
+        <applicationConfigurable parentId="tools" id="com.ranju.fenbi.settings"
+                                 displayName="Fenbi 行测"
+                                 instance="com.ranju.fenbi.settings.FenbiConfigurable"/>
+        <notificationGroup id="Fenbi" displayType="BALLOON"/>
+    </extensions>
+
+    <actions>
+        <action id="Fenbi.BossKey" class="com.ranju.fenbi.actions.BossKeyAction"
+                text="Fenbi：显示/隐藏刷题窗口">
+            <keyboard-shortcut keymap="$default" first-keystroke="ctrl alt shift F"/>
+        </action>
+    </actions>
+</idea-plugin>

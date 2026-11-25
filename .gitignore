@@ -1,0 +1,10 @@
+.gradle/
+build/
+.idea/
+*.iml
+out/
+backup-*/
+.intellijPlatform/
+.kotlin/
+# 本地助手的工作笔记，不要进公开仓库
+.workbuddy/
